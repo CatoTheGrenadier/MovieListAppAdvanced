@@ -15,6 +15,8 @@ struct SingleMovieDetail: View{
     @State var backDrops: [PicData] = []
     @State var genre: String = ""
     @State var lastMovie:LastMovie
+    @ObservedObject var profileRep: ProfileRepository
+
     var body: some View{
         ScrollView{
             VStack(alignment:.leading){
@@ -84,6 +86,20 @@ struct SingleMovieDetail: View{
             }
             .padding()
             Spacer()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if profileRep.profile.favouriteList.contains(singleMovie.id) {
+                    Button("♥"){
+                        profileRep.unfavouriteMovie(movieId: singleMovie.id)
+                    }
+                } else {
+                    Button("♡"){
+                        profileRep.favouriteMovie(movieId: singleMovie.id)
+                    }
+                    .frame(width: 10.0, height: 10.0)
+                }
+            }
         }
     }
 }
